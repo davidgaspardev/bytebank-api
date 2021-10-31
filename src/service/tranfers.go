@@ -8,7 +8,7 @@ import (
 )
 
 func AddTransfer(transfer model.Transfer) (string, error) {
-	var object_id, err = database.AddData("cardflix", transfer)
+	var object_id, err = database.AddData("transfer", transfer)
 	if err != nil {
 		return "", err
 	}
@@ -16,7 +16,7 @@ func AddTransfer(transfer model.Transfer) (string, error) {
 }
 
 func GetAllTransfers() []model.Transfer {
-	var data = database.GetAllData("cardflix")
+	var data = database.GetAllData("transfer")
 
 	var result = make([]model.Transfer, len(data))
 
