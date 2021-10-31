@@ -6,6 +6,6 @@ type Transfer struct {
 	Contact struct {
 		Name          string `json:"name,omitempty" bson:"name,omitempty"`
 		AccountNumber int    `json:"accountNumber,omitempty" bson:"accountNumber,omitempty"`
-	} `json:"contact,omitempty" bson:"value,omitempty"`
+	} `json:"contact,omitempty" bson:"contact,omitempty"`
 	DateTime string `json:"dateTime,omitempty" bson:"dateTime,omitempty"`
 }
