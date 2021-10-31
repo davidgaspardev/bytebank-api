@@ -26,7 +26,9 @@ func GetAllTransfers() []model.Transfer {
 			log.Fatal(err)
 		}
 
-		json.Unmarshal(dataJson, &result[i])
+		if err := json.Unmarshal(dataJson, &result[i]); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	return result
