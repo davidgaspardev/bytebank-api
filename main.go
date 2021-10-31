@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "bytebank-api/src/server"
 
 func main() {
-	fmt.Println("Hello, World!")
+	server.Start(8080)
 }
