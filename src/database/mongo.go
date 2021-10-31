@@ -25,9 +25,13 @@ type _Mongo struct {
 var instance _Mongo
 var once sync.Once
 
+func debugLog(message string) {
+	fmt.Printf("[ file: mongo.go ] %s\n", message)
+}
+
 // Initialize single instance
 func init() {
-	fmt.Println("[ file: mongo.go ] init method called")
+	debugLog("init method called")
 	once.Do(func() {
 		instance = _Mongo{}
 
@@ -41,21 +45,24 @@ func init() {
 		// Mounting url to mongo database
 		mongoURI := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.rwqjl.mongodb.net", username, url.QueryEscape(password))
 
-		var client, err = mongo.Connect(context.Background(), options.Client().ApplyURI(mongoURI))
+		var client, err = mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
 		if err != nil {
 			log.Fatal(err)
 		}
+		debugLog("connected with Mondo DB")
 
 		// Pass objects to instance
 		instance.client = client
 		instance.database = client.Database(database)
 		instance.context = &ctx
+		debugLog(fmt.Sprintf("%s: %s", "database accessed", database))
 
 		// Get all existing collection in database
 		var currentCollections, erro = instance.database.ListCollectionNames(*instance.context, bson.D{})
 		if erro != nil {
 			log.Fatal(erro)
 		}
+		debugLog(fmt.Sprintf("%s: %q", "database collection", currentCollections))
 		for i := 0; i < len(schemaList); i++ {
 			// Check if the collection already exists in the specific database, if it does not exist, it is to
 			// create a database with validation forgetting regarding the collection.
@@ -71,7 +78,9 @@ func init() {
 				continue
 			}
 
+			fmt.Println("[ file: mongo.go ] Setting validation schema")
 			var options = options.CreateCollection().SetValidator(getSchema(schemaList[i]))
+			fmt.Printf("[ file: mongo.go ] Creating collection: %s\n", schemaList[i])
 			var err = instance.database.CreateCollection(*instance.context, schemaList[i], options)
 			if err != nil {
 				log.Fatal(err)
