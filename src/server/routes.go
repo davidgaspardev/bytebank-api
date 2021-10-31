@@ -60,11 +60,7 @@ func buildRoutes() {
 				response.Header().Set("Content-Type", "application/json; charset=utf-8")
 				response.WriteHeader(http.StatusOK)
 				response.Write(resData)
-			}
-			break
-		// Getting all Cardflix
-		case "/cardflix/all":
-			if request.Method == http.MethodGet {
+			} else if request.Method == http.MethodGet {
 				var data = service.GetAllTransfers()
 				var body, err = json.Marshal(data)
 				if err != nil {
@@ -78,6 +74,8 @@ func buildRoutes() {
 				response.Header().Set("Content-Length", fmt.Sprint(len(body)))
 				response.WriteHeader(http.StatusOK)
 				response.Write(body)
+			} else {
+				http.NotFound(response, request)
 			}
 			break
 		default:
