@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func logNewRequest(request *http.Request) {
@@ -43,6 +44,8 @@ func buildRoutes() {
 					response.Write([]byte(err.Error()))
 					return
 				}
+
+				data.DateTime = time.Now()
 
 				id, err := service.AddTransfer(data)
 

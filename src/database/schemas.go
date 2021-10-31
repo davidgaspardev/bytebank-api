@@ -24,14 +24,16 @@ var schemaList = []string{
 
 var transferSchema = bson.M{
 	"bsonType":             "object",
-	"required":             []string{"value", "contact", "datetime"},
+	"required":             []string{"value", "contact", "dateTime"},
+	"description":          "Must be a Tranfer model object",
 	"additionalProperties": false,
 	"properties": bson.M{
 		"_id": bson.M{
 			"bsonType": "objectId",
 		},
 		"value": bson.M{
-			"bsonType": "double",
+			"bsonType":    "double",
+			"description": "Must be a double",
 		},
 		"contact": bson.M{
 			"bsonType":             "object",
@@ -39,15 +41,18 @@ var transferSchema = bson.M{
 			"additionalProperties": false,
 			"properties": bson.M{
 				"name": bson.M{
-					"bsonType": "string",
+					"bsonType":    "string",
+					"description": "Must be a string",
 				},
 				"accountNumber": bson.M{
-					"bsonType": "int",
+					"bsonType":    "int",
+					"description": "Must be a integer",
 				},
 			},
 		},
-		"datetime": bson.M{
-			"bsonType": "date",
+		"dateTime": bson.M{
+			"bsonType":    "date",
+			"description": "Must be a date",
 		},
 	},
 }
