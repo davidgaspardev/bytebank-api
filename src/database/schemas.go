@@ -37,10 +37,10 @@ var transferSchema = bson.M{
 		},
 		"contact": bson.M{
 			"bsonType":             "object",
-			"required":             []string{"name", "accountNumber"},
+			"required":             []string{"fullname", "accountNumber"},
 			"additionalProperties": false,
 			"properties": bson.M{
-				"name": bson.M{
+				"fullname": bson.M{
 					"bsonType":    "string",
 					"description": "Must be a string",
 				},
