@@ -7,12 +7,13 @@ import (
 	"log"
 )
 
-func AddTransfer(transfer model.Transfer) (string, error) {
-	var object_id, err = database.AddData("transfer", transfer)
+func AddTransfer(transfer *model.Transfer) error {
+	var object_id, err = database.AddData("transfer", *transfer)
 	if err != nil {
-		return "", err
+		return err
 	}
-	return object_id, nil
+	transfer.Id = object_id
+	return nil
 }
 
 func GetAllTransfers() []model.Transfer {

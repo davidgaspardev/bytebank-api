@@ -50,18 +50,14 @@ func buildRoutes() {
 
 				data.DateTime = time.Now()
 
-				id, err := service.AddTransfer(data)
-
-				if err != nil {
+				if err := service.AddTransfer(&data); err != nil {
 					response.Header().Set("Content-Type", "text/plain; charset=utf-8")
 					response.WriteHeader(http.StatusBadRequest)
 					response.Write([]byte(err.Error()))
 					return
 				}
 
-				var resData, _ = json.Marshal( /** map[keys type]values type */ map[string]string{
-					"id": id,
-				})
+				var resData, _ = json.Marshal(data)
 				response.Header().Set("Content-Type", "application/json; charset=utf-8")
 				response.WriteHeader(http.StatusOK)
 				response.Write(resData)
