@@ -23,6 +23,9 @@ func logNewRequest(request *http.Request) {
 	if request.Header.Get("User-Agent") != "" {
 		fmt.Printf("[ %s ] User agent: %s\n", request.RemoteAddr, request.Header.Get("User-Agent"))
 	}
+	if request.Header.Get("Authorization") != "" {
+		fmt.Printf("[ %s ] Authorization: %s\n", request.RemoteAddr, request.Header.Get("Authorization"))
+	}
 }
 
 func buildRoutes() {
