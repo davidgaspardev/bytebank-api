@@ -33,7 +33,7 @@ func buildRoutes() {
 		switch request.URL.Path {
 		// Adding Cardflix in database
 		case "/transactions":
-			if request.Method == http.MethodPost {
+			if request.Method == http.MethodPost && isRequestAuthorized(request) {
 				var data model.Transfer
 				// Get the requisition body data
 				var err = json.NewDecoder(request.Body).Decode(&data)
