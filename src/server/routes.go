@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func logNewRequest(request *http.Request) {
+func logRequest(request *http.Request) {
 	fmt.Printf("\n[ %s ] Path: %s\n", request.RemoteAddr, request.URL.Path)
 	if len(request.URL.RawQuery) > 0 {
 		fmt.Printf("[ %s ] Query: %s\n", request.RemoteAddr, request.URL.RawQuery)
@@ -31,7 +31,7 @@ func logNewRequest(request *http.Request) {
 func buildRoutes() {
 	mux.HandleFunc("/", func(response http.ResponseWriter, request *http.Request) {
 
-		logNewRequest(request)
+		logRequest(request)
 
 		switch request.URL.Path {
 		// Adding Cardflix in database
@@ -52,7 +52,6 @@ func buildRoutes() {
 
 				id, err := service.AddTransfer(data)
 
-				// var result, erro = database.AddData("cardflix", data)
 				if err != nil {
 					response.Header().Set("Content-Type", "text/plain; charset=utf-8")
 					response.WriteHeader(http.StatusBadRequest)
