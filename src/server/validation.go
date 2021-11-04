@@ -51,3 +51,11 @@ func isRequestAuthorized(request *http.Request) bool {
 
 	return true
 }
+
+func isRequestPasswordValid(request *http.Request) bool {
+	password := request.Header.Get("password")
+	if password == os.Getenv("POST_PASS") {
+		return true
+	}
+	return false
+}

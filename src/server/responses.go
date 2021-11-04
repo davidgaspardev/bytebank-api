@@ -25,6 +25,10 @@ func responseBadRequest(response http.ResponseWriter, err error) {
 	_responseWithErrorInfo(response, err, http.StatusBadRequest)
 }
 
+func responseUnauthorized(response http.ResponseWriter) {
+	_responseWithErrorInfo(response, fmt.Errorf("You don't have permission"), http.StatusUnauthorized)
+}
+
 // Response internal server error status code to the client
 func responseInternalServerError(response http.ResponseWriter, err error) {
 	_responseWithErrorInfo(response, err, http.StatusInternalServerError)

@@ -37,6 +37,11 @@ func buildRoutes() {
 		// Adding Cardflix in database
 		case "/transactions":
 			if request.Method == http.MethodPost && isRequestAuthorized(request) {
+
+				if !isRequestPasswordValid(request) {
+					responseUnauthorized(response)
+				}
+
 				var data model.Transfer
 				// Get the requisition body data
 				var err = json.NewDecoder(request.Body).Decode(&data)
