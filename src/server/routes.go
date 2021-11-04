@@ -41,40 +41,21 @@ func buildRoutes() {
 				// Get the requisition body data
 				var err = json.NewDecoder(request.Body).Decode(&data)
 				if err != nil {
-					// Returns error from reading body data
-					response.Header().Set("Content-Type", "text/plain; charset=utf-8")
-					response.WriteHeader(http.StatusBadRequest)
-					response.Write([]byte(err.Error()))
+					responseBadRequest(response, err)
 					return
 				}
 
 				data.DateTime = time.Now()
-
 				if err := service.AddTransfer(&data); err != nil {
-					response.Header().Set("Content-Type", "text/plain; charset=utf-8")
-					response.WriteHeader(http.StatusBadRequest)
-					response.Write([]byte(err.Error()))
+					responseBadRequest(response, err)
 					return
 				}
 
-				var resData, _ = json.Marshal(data)
-				response.Header().Set("Content-Type", "application/json; charset=utf-8")
-				response.WriteHeader(http.StatusOK)
-				response.Write(resData)
+				responseCreated(response, data)
+
 			} else if request.Method == http.MethodGet {
 				var data = service.GetAllTransfers()
-				var body, err = json.Marshal(data)
-				if err != nil {
-					// There was a problem converting data to a byte array
-					response.Header().Set("Content-Type", "text/plain; charset=utf-8")
-					response.WriteHeader(http.StatusBadRequest)
-					response.Write([]byte(err.Error()))
-					break
-				}
-				response.Header().Set("Content-Type", "application/json; charset=utf-8")
-				response.Header().Set("Content-Length", fmt.Sprint(len(body)))
-				response.WriteHeader(http.StatusOK)
-				response.Write(body)
+				responseOK(response, data)
 			} else {
 				http.NotFound(response, request)
 			}
