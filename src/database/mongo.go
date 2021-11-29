@@ -37,19 +37,16 @@ func init() {
 
 		var ctx context.Context = context.Background()
 
-		// Getting environment variables
-		username := os.Getenv("USER")
-		password := os.Getenv("PASS")
-		database := os.Getenv("DB")
-
 		// Mounting url to mongo database
-		mongoURI := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.rwqjl.mongodb.net", username, url.QueryEscape(password))
+		mongoURI := createMongoURI()
 
 		var client, err = mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
 		if err != nil {
 			log.Fatal(err)
 		}
 		debugLog("connected with Mondo DB")
+
+		database := getDatabaseName()
 
 		// Pass objects to instance
 		instance.client = client
@@ -89,6 +86,34 @@ func init() {
 			}
 		}
 	})
+}
+
+func createMongoURI() string {
+	// Getting environment variables
+	username := os.Getenv("MONGO_USER")
+	password := os.Getenv("MONGO_PASS")
+	hostname := os.Getenv("MONGO_HOST")
+	if hostname == "" {
+		hostname = "localhost"
+	}
+
+	// Mounting url to mongo database
+	var mongoURI string
+	if username == "" || password == "" {
+		mongoURI = fmt.Sprintf("mongodb://%s", hostname)
+	} else {
+		mongoURI = fmt.Sprintf("mongodb+srv://%s:%s@%s", username, url.QueryEscape(password), hostname)
+	}
+
+	return mongoURI
+}
+
+func getDatabaseName() string {
+	database := os.Getenv("MONGO_DB")
+	if database == "" {
+		database = "bytebank"
+	}
+	return database
 }
 
 // Add data in the Mongo database
