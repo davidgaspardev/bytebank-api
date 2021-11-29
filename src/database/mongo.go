@@ -62,7 +62,9 @@ func init() {
 		if erro != nil {
 			log.Fatal(erro)
 		}
-		debugLog(fmt.Sprintf("%s: %q", "database collection", currentCollections))
+		if len(currentCollections) > 0 {
+			debugLog(fmt.Sprintf("%s: %q", "database collection list", currentCollections))
+		}
 		for i := 0; i < len(schemaList); i++ {
 			// Check if the collection already exists in the specific database, if it does not exist, it is to
 			// create a database with validation forgetting regarding the collection.
