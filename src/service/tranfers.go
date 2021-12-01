@@ -8,7 +8,7 @@ import (
 )
 
 func AddTransfer(transfer *model.Transfer) error {
-	var object_id, err = database.AddData("transfer", *transfer)
+	var object_id, err = database.LoadMongo().AddData("transfer", *transfer)
 	if err != nil {
 		return err
 	}
@@ -17,7 +17,10 @@ func AddTransfer(transfer *model.Transfer) error {
 }
 
 func GetAllTransfers() []model.Transfer {
-	var data = database.GetAllData("transfer")
+	data, err := database.LoadMongo().GetAllData("transfer")
+	if err != nil {
+		return []model.Transfer{}
+	}
 
 	var result = make([]model.Transfer, len(data))
 
