@@ -96,16 +96,22 @@ func createMongoURI() string {
 	username := os.Getenv("MONGO_USER")
 	password := os.Getenv("MONGO_PASS")
 	hostname := os.Getenv("MONGO_HOST")
+	port := os.Getenv("MONGO_PORT")
+
 	if hostname == "" {
 		hostname = "localhost"
+	}
+
+	if port == "" {
+		port = "27017"
 	}
 
 	// Mounting url to mongo database
 	var mongoURI string
 	if username == "" || password == "" {
-		mongoURI = fmt.Sprintf("mongodb://%s", hostname)
+		mongoURI = fmt.Sprintf("mongodb://%s:%s", hostname, port)
 	} else {
-		mongoURI = fmt.Sprintf("mongodb+srv://%s:%s@%s", username, url.QueryEscape(password), hostname)
+		mongoURI = fmt.Sprintf("mongodb://%s:%s@%s:%s", username, url.QueryEscape(password), hostname, port)
 	}
 
 	return mongoURI
