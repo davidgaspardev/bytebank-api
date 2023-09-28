@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    image: golang:1.21
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: go run main.go
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_USER: byteroot
+      MONGO_PASS: bytepass875
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: byteroot
+      MONGO_INITDB_ROOT_PASSWORD: bytepass875
