@@ -14,8 +14,9 @@ https://docs.mongodb.com/manual/installation/) local or [MongoDB Atlas](https://
 If you use MongoDB Atlas, you need to declare and initialize the following environment variables:
  - `MONGO_USER`: Username to connect with MongoDB
  - `MONGO_PASS`: Password to connect with MongoDB
- - `MONGO_HOST`: MongoDB address (DNS/IP)
- - `MONGO_DB`: Database name declared in the MongoDB
+ - `MONGO_HOST`: MongoDB address hostname, DNS or IP (optional, default: <u>localhost</u>)
+ - `MONGO_PORT`: MongoDB address port (optional, default: <u>27017</u>)
+ - `MONGO_DB`: Database name declared in the MongoDB (optinal, default: <u>bytebank</u>)
 > Obs: You can use a Makefile to set the environment variables.
 
 ### Authetication configurations
